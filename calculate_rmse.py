@@ -29,7 +29,32 @@ def calculate_rmse(day_num):
 
      def do_work(forecast_data, truth_data, mode):
           if mode == 'upper':
-               pass
+               variables = ['Z', 'Q', 'T', 'U', 'V']
+               levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50]
+               target_variables = ['Z']
+               target_levels = [500]
+               
+               rmse_values = []
+               for variable in variables:
+                    if variable in target_variables:
+                         for level in levels:
+                              if level in target_levels:
+                                   variable_index = variables.index(variable)
+                                   level_index = levels.index(level)
+                                   
+                                   selected_forecast_data = forecast_data[variable_index, level_index, :, :]
+                                   selected_truth_data = truth_data[variable_index, level_index, :, :]
+                                   rmse_earth = calculate_rmse_values(selected_forecast_data, selected_truth_data)
+                                   rmse_norther_hemisphere = calculate_rmse_values(selected_forecast_data, selected_truth_data, 0.0)
+                                   print('счёт')
+                                   rmse_values.append({
+                                        'variable': variable,
+                                        'rmse_earth': rmse_earth,
+                                        'rmse_norther_hemisphere': rmse_norther_hemisphere,
+                                   })
+                                   # rmse_values[variable] = 
+               
+               return rmse_values
                                    
           elif mode == 'surface':
                variables = ['MSLP', 'U10', 'V10', 'T2M']
@@ -60,7 +85,17 @@ def calculate_rmse(day_num):
      upper_path = os.path.join('output_data', 'output_upper_neuro.npy')
      upper_few_day = np.load(upper_path_few_day).astype(np.float32)
      upper = np.load(upper_path).astype(np.float32)
+     rmse_values = do_work(upper, upper_few_day, 'upper')
 
+     for variable in rmse_values:
+          print(f'''
+     RMSE for 500 level for the {day_num}-day forecast:
+     for {variable['variable']} variable:
+     {variable['rmse_earth']} in all Earth, 
+     {variable['rmse_norther_hemisphere']} for norther hemisphere\n
+     ''')
+          with open('rmse.txt', 'a') as file:
+               file.write(f"RMSE for 500 level for the {day_num}-day forecast: for {variable['variable']} variable:{variable['rmse_earth']} in all Earth, {variable['rmse_norther_hemisphere']} for norther hemisphere\n")
 
 
 # '''
