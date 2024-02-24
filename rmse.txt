@@ -1,0 +1,6 @@
+RMSE for MSLP for the 1-day forecast:1.4900317446961968 in all Earth, 1.6551827531358165 for norther hemisphere
+RMSE for MSLP for the 2-day forecast:2.425056010831151 in all Earth, 2.710481067526342 for norther hemisphere
+RMSE for MSLP for the 3-day forecast:3.495120921052075 in all Earth, 3.7417331582567614 for norther hemisphere
+RMSE for MSLP for the 4-day forecast:5.434072635976809 in all Earth, 5.901391834602682 for norther hemisphere
+RMSE for MSLP for the 5-day forecast:8.954299443439611 in all Earth, 9.434370036893146 for norther hemisphere
+RMSE for MSLP for the 6-day forecast:11.580264038555082 in all Earth, 11.796832530391685 for norther hemisphere
