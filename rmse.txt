@@ -1,6 +1,36 @@
+По 1 дню
+
 RMSE for MSLP for the 1-day forecast:1.4900317446961968 in all Earth, 1.6551827531358165 for norther hemisphere
+RMSE for 500 level for the 1-day forecast: for Z variable:1.1982164488643094 in all Earth, 1.2376438438509612 for norther hemisphere
 RMSE for MSLP for the 2-day forecast:2.425056010831151 in all Earth, 2.710481067526342 for norther hemisphere
+RMSE for 500 level for the 2-day forecast: for Z variable:2.099772494362849 in all Earth, 2.145206872439343 for norther hemisphere
 RMSE for MSLP for the 3-day forecast:3.495120921052075 in all Earth, 3.7417331582567614 for norther hemisphere
+RMSE for 500 level for the 3-day forecast: for Z variable:3.2847798354318396 in all Earth, 3.3800938291464138 for norther hemisphere
 RMSE for MSLP for the 4-day forecast:5.434072635976809 in all Earth, 5.901391834602682 for norther hemisphere
+RMSE for 500 level for the 4-day forecast: for Z variable:5.28038646818699 in all Earth, 5.3227798267921065 for norther hemisphere
 RMSE for MSLP for the 5-day forecast:8.954299443439611 in all Earth, 9.434370036893146 for norther hemisphere
+RMSE for 500 level for the 5-day forecast: for Z variable:8.214882785794169 in all Earth, 7.677060317417868 for norther hemisphere
 RMSE for MSLP for the 6-day forecast:11.580264038555082 in all Earth, 11.796832530391685 for norther hemisphere
+RMSE for 500 level for the 6-day forecast: for Z variable:11.312788294143855 in all Earth, 9.820631727297625 for norther hemisphere
+
+По 6 часов (до 1 дня)
+
+RMSE for MSLP for the 6-hour forecast:0.6783278334428019 in all Earth, 0.799995577532381 for norther hemisphere
+RMSE for 500 level for the 6-hour forecast: for Z variable:0.40076515250203476 in all Earth, 0.40311463675889697 for norther hemisphere
+RMSE for MSLP for the 12-hour forecast:1.1107658822582918 in all Earth, 1.2123764275003701 for norther hemisphere
+RMSE for 500 level for the 12-hour forecast: for Z variable:0.7158230514633815 in all Earth, 0.7609692996985502 for norther hemisphere
+RMSE for MSLP for the 18-hour forecast:1.3003973010121694 in all Earth, 1.4759835909669707 for norther hemisphere
+RMSE for 500 level for the 18-hour forecast: for Z variable:0.8123043788806215 in all Earth, 0.8409902901108628 for norther hemisphere
+RMSE for MSLP for the 24-hour forecast:1.657812620657252 in all Earth, 1.8471202738304817 for norther hemisphere
+RMSE for 500 level for the 24-hour forecast: for Z variable:1.162556010752386 in all Earth, 1.1432752669469617 for norther hemisphere
+
+По 6 часам (до 4-ого дня)
+
+RMSE for MSLP for the 24-hour forecast:1.657812620657252 in all Earth, 1.8471202738304817 for norther hemisphere
+RMSE for 500 level for the 24-hour forecast: for Z variable:1.162556010752386 in all Earth, 1.1432752669469617 for norther hemisphere
+RMSE for MSLP for the 48-hour forecast:3.0198816319897595 in all Earth, 3.356954831877965 for norther hemisphere
+RMSE for 500 level for the 48-hour forecast: for Z variable:2.4800522160777545 in all Earth, 2.5683702857696997 for norther hemisphere
+RMSE for MSLP for the 72-hour forecast:4.326787905975324 in all Earth, 4.897935998128755 for norther hemisphere
+RMSE for 500 level for the 72-hour forecast: for Z variable:4.032922695135624 in all Earth, 4.201840242514839 for norther hemisphere
+RMSE for MSLP for the 96-hour forecast:7.087686600141968 in all Earth, 8.321543348687966 for norther hemisphere
+RMSE for 500 level for the 96-hour forecast: for Z variable:6.734784747651783 in all Earth, 7.062057214536052 for norther hemisphere
