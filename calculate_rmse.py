@@ -2,30 +2,32 @@ import math
 import os
 import numpy as np
 
-def calculate_rmse(day_num):
+def calculate_rmse(day_num, time_type):
      def calculate_rmse_values(selected_forecast_data, selected_truth_data, target_lat_value=-90.0):
           '''
-          RMSE = sqrt(sum((forecast[0:721,0:1440]-truth[0:721,0:1440])^2*cos(phi[0:721])) / sum(cos(phi[0:721]))/1440)
+          RMSE = sqrt(
+               sum(
+                    (forecast[0:721,0:1440]-truth[0:721,0:1440])^2
+                    *cos(phi[0:721])
+                    ) / sum(cos(phi[0:721]))/1440)
           '''
-          first_flag = True
+          sum_difference_forecast = 0.0
+          sum_lat_cos = 0.0
           lat_value = 90
+
           for lat in range(selected_forecast_data.shape[0]):
+               lat_cos = math.cos(math.radians(lat_value))
                if lat_value < target_lat_value:
                     break
-               
+
                for lon in range(selected_forecast_data.shape[1]):
-                    difference_forecast = (selected_forecast_data[lat,lon]-selected_truth_data[lat,lon])**2*math.cos(math.radians(lat_value))
-                    lat_cos = math.cos(math.radians(lat_value))
-                    if first_flag:
-                         sum_difference_forecast = difference_forecast
-                         sum_lat_cos = lat_cos
-                         first_flag = False
-                    else:
-                         sum_difference_forecast+=difference_forecast
-                         sum_lat_cos+=lat_cos
-               lat_value-=0.25
-               
-          return math.sqrt(sum_difference_forecast/sum_lat_cos/1440)
+                    difference_forecast = (selected_forecast_data[lat, lon] - selected_truth_data[lat, lon]) ** 2 * lat_cos
+                    sum_difference_forecast += difference_forecast
+
+               sum_lat_cos += lat_cos
+               lat_value -= 0.25
+
+          return math.sqrt(sum_difference_forecast / sum_lat_cos / 1440)
 
      def do_work(forecast_data, truth_data, mode):
           if mode == 'upper':
@@ -77,9 +79,12 @@ def calculate_rmse(day_num):
      surface_few_day = np.load(surface_path_few_day).astype(np.float32)
      surface = np.load(surface_path).astype(np.float32)
      rmse_earth, rmse_norther_hemisphere = do_work(surface, surface_few_day, 'surface')   
-     print(f"RMSE for MSLP for the {day_num}-day forecast:{rmse_earth} in all Earth, {rmse_norther_hemisphere} for norther hemisphere ")
+     print(f"RMSE for MSLP for the {day_num}-{time_type} forecast:{rmse_earth} in all Earth, {rmse_norther_hemisphere} for norther hemisphere ")
+     
+     if time_type == 'hour':
+               day_num = day_num*6
      with open('rmse.txt', 'a') as file:
-          file.write(f"RMSE for MSLP for the {day_num}-day forecast:{rmse_earth} in all Earth, {rmse_norther_hemisphere} for norther hemisphere\n")
+          file.write(f"RMSE for MSLP for the {day_num}-{time_type} forecast:{rmse_earth} in all Earth, {rmse_norther_hemisphere} for norther hemisphere\n")
 
      upper_path_few_day = os.path.join('output_data', 'output_upper_few_day.npy')
      upper_path = os.path.join('output_data', 'output_upper_neuro.npy')
@@ -89,18 +94,19 @@ def calculate_rmse(day_num):
 
      for variable in rmse_values:
           print(f'''
-     RMSE for 500 level for the {day_num}-day forecast:
+     RMSE for 500 level for the {day_num}-{time_type} forecast:
      for {variable['variable']} variable:
      {variable['rmse_earth']} in all Earth, 
      {variable['rmse_norther_hemisphere']} for norther hemisphere\n
      ''')
           with open('rmse.txt', 'a') as file:
-               file.write(f"RMSE for 500 level for the {day_num}-day forecast: for {variable['variable']} variable:{variable['rmse_earth']} in all Earth, {variable['rmse_norther_hemisphere']} for norther hemisphere\n")
+               file.write(f"RMSE for 500 level for the {day_num}-{time_type} forecast: for {variable['variable']} variable:{variable['rmse_earth']} in all Earth, {variable['rmse_norther_hemisphere']} for norther hemisphere\n")
 
 
-# '''
-# '''
 # import matplotlib.pyplot as plt
+# '''
+# RMSE для MSLP
+# '''
 
 # days = [1,2,3,4,5,6]
 # rmses_earth = [
@@ -120,10 +126,78 @@ def calculate_rmse(day_num):
 #      11.796832530391685,
 # ]
 
-# plt.plot(days, rmses_earth, label='rmses_earth')
-# plt.plot(days, rmses_north, label='rmses_north')
+# plt.plot(days, rmses_earth, label='RMSE (Earth)')
+# plt.plot(days, rmses_north, label='RMSE (Northern Hemisphere)')
 # plt.xlabel('Дни')
 # plt.ylabel('RMSE')
+# plt.title('MSLP')
 # plt.legend()
+# plt.show()
 
+# '''
+# Z500
+# '''
+# days = [1,2,3,4,5,6]
+# rmses_earth = [
+#      1.1982164488643094,
+#      2.099772494362849 ,
+#      3.2847798354318396 ,
+#      5.28038646818699 ,
+#      8.214882785794169 ,
+#      11.312788294143855,
+# ]
+# rmses_north = [
+#      1.2376438438509612,
+#      2.145206872439343,
+#      3.3800938291464138,
+#      5.3227798267921065,
+#      7.677060317417868,
+#      9.820631727297625,
+# ]
+
+# plt.plot(days, rmses_earth, label='RMSE (Earth)')
+# plt.plot(days, rmses_north, label='RMSE (Northern Hemisphere)')
+# plt.xlabel('Дни')
+# plt.ylabel('RMSE')
+# plt.title('Z500')
+# plt.legend()
+# plt.show()
+
+# '''
+# MSLP (с применением 6-часовых итераций и 1-дневных)
+# '''
+# days = [1,2,3,4]
+# rmses_earth_day_iteration = [
+#      1.1982164488643094,
+#      2.099772494362849 ,
+#      3.2847798354318396 ,
+#      5.28038646818699
+# ]
+# rmses_north_day_iteration = [
+#      1.6551827531358165,
+#      2.710481067526342,
+#      3.7417331582567614,
+#      5.901391834602682,
+# ]
+# rmses_earth_6_hour_iteration = [
+#      1.657812620657252,
+#      3.0198816319897595,
+#      4.326787905975324,
+#      7.087686600141968,
+# ]
+# rmses_north_6_hour_iteration = [
+#      1.8471202738304817,
+#      3.356954831877965,
+#      4.897935998128755,
+#      8.321543348687966,
+# ]
+
+# plt.plot(days, rmses_earth_day_iteration, label='RMSE Earth (1-day iteration)')
+# plt.plot(days, rmses_earth_6_hour_iteration, label='RMSE Earth (6-hours iteration)')
+# plt.plot(days, rmses_north_day_iteration, label='RMSE Northern Hemisphere (1-day iteration)')
+# plt.plot(days, rmses_north_6_hour_iteration, label='RMSE Northern Hemisphere (6-hours iteration)')
+# plt.xlabel('Дни')
+# plt.ylabel('RMSE')
+# plt.title('MSLP')
+# plt.legend()
 # plt.show()
